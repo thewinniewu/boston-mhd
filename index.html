@@ -1,9 +1,19 @@
 <html>
 <head>
+
+
+<script type ="text/javascript">
+
+function printSlider(val) {
+ document.getElementById('textprint').value = val;
+}
+
+</script>
+
 </head>
 <body>
-<input type="range" min="0" max ="100" value="50" oninput="INSERTFUNCTIONHERE;">
-
+<input type="range" min="0" max ="100" value="50" oninput="printSlider(this.value);">
+<input type="text" id ="textprint" value="">
 </body>
 </html>
 
