@@ -10,8 +10,6 @@
 
   <style>
   
-  .p{font-family:"Comic Sans MS", cursive, sans-serif;}
-
   
   .ui-slider {
  position:absolute;
@@ -83,10 +81,16 @@
 $(document).ready(function() {
 var lspinning = false;
 var rspinning = false;
+var lstop = false;
+var rstop = false;
 $("#play1button").click(function () {
        var $elie = $("#leftwheel");
        if (!lspinning) {
        rotate(0);
+        $("#play1button").html("STOP");
+       } else {
+       lstop = true;
+
        }
        function rotate(degree) {
            lspinning = true;
@@ -96,7 +100,9 @@ $("#play1button").click(function () {
            $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
   
            // Animate rotation with a recursive call
+           if (!lstop){
            setTimeout(function() { rotate(10+degree); },65);
+           }
        }
     
 });
@@ -105,6 +111,12 @@ $("#play1button").click(function () {
        var $elie = $("#rightwheel");
        if (!rspinning) {
        rotate(0);
+       $("#play2button").html("STOP");
+       } else {
+       rstop = true;
+       
+       
+       
        }
        function rotate(degree) {
            rspinning = true;
@@ -120,11 +132,14 @@ $("#play1button").click(function () {
            $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
   
            // Animate rotation with a recursive call
+           if (!rstop){
            setTimeout(function() { rotate(10 + 8*incspeed+degree); },65);
+           }
        }
     
 });
 });
+
   
   </script>
 </head>
