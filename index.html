@@ -57,8 +57,7 @@
   position: absolute;
   top:700px;
   left:1070px;
-  }
-
+}
   </style>
   
   
@@ -80,6 +79,7 @@
     
 
 $(document).ready(function() {
+$("#overlay").hide();
 var lspinning = false;
 var rspinning = false;
 var lstop = false;
@@ -91,7 +91,9 @@ $("#play1button").click(function () {
         $("#play1button").html("STOP");
        } else {
        lstop = true;
-
+        if (rstop){
+         $("#overlay").show();
+       }
        }
        function rotate(degree) {
            lspinning = true;
@@ -115,7 +117,9 @@ $("#play1button").click(function () {
        $("#play2button").html("STOP");
        } else {
        rstop = true;
-       
+       if (lstop){
+         $("#overlay").show();
+       }
        
        
        }
@@ -160,6 +164,8 @@ $("#play1button").click(function () {
 <button type="button" id="play2button">PLAY</button>
 
 <div id="slider-vertical" style="height: 680px;"></div>
+
+<img src="images/overlaytext.png" style="position:absolute;" id="overlay">
  </div>
  
 </body>
