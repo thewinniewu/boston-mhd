@@ -1,0 +1,67 @@
+
+<!doctype html>
+ 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <script>
+
+	 var sliderValue = 0; 
+	  
+	  $(function() {
+    $( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 50,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+    sliderValue = $( "#amount" ).val ("value");
+  });
+
+  </script>
+</head>
+<body>
+ 
+<p>
+  <label for="amount">Slider Value:</label>
+  <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+</p>
+ 
+<div id="slider-vertical" style="height: 400px;"></div>
+ 
+ 
+</body>
+</html>
+
+
+<!-- <html>
+<head>
+
+
+<script type ="text/javascript">
+
+function printSlider(val) {
+ document.getElementById('textprint').value = val;
+}
+
+</script>
+
+</head>
+<body>
+<input type="range" min="0" max ="100" value="50" oninput="printSlider(this.value);">
+<input type="text" id ="textprint" value="">
+</body>
+</html>
+-->
+
+
+
