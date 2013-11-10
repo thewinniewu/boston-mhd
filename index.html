@@ -12,16 +12,19 @@
    background-position:center;
    background-image:url('images/background.png' no-repeat);}
   
-  #slider {
+  .ui-slider-vertical {
  position:fixed;
  top:90px;
  right:1235px;
  }
 
-  
-  #slider .ui-slider-handle {
-      background: url(images/slider.png) no-repeat;
-      border: none;
+  .ui-slider-vertical .ui-slider-handle{
+    width:50px; 
+    height:50px; 
+    background:url(../images/slider.png) no-repeat; overflow: hidden; 
+    position:absolute;
+    top: -10px;
+    border-style:none; 
 }
 
   </style>
