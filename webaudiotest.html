@@ -106,8 +106,17 @@
 <button type="button" id="play2buttonstop" onClick="source2.stop(0);">STOP</button>
 
 <div id="slider-vertical" style="height: 680px;"></div>
+<img src="images/overlaytext.png" style="position:absolute;" id="overlay">
+
  </div>
+ 
+ 
 <script type="text/javascript">
+
+var lspinning;
+var rspinning;
+var lstop;
+var rstop;
 // Make webkit browsers use the prefix-free version of AudioContext.
   var AudioContext = AudioContext || webkitAudioContext;
   var context = new AudioContext(), buffer;
@@ -134,7 +143,6 @@
         source2 = context.createBufferSource();
         source2.buffer = buffer;
         source2.connect(context.destination);
-        //source.start(0); // Play sound immediately
     };
 
     function play2() {
@@ -156,7 +164,7 @@
         };
 
         request.send();
-    }());
+    });
     // track 2
     var loadAudioFile2 = (function (url) {
         var request = new XMLHttpRequest();
@@ -173,7 +181,7 @@
         };
 
         request.send();
-    }());
+    });
 
   $(function() {
     $( "#slider-vertical" ).slider({
@@ -190,17 +198,24 @@
     
 
 $(document).ready(function() {
-var lspinning = false;
-var rspinning = false;
-var lstop = false;
-var rstop = false;
+
+$("#overlay").hide();
+
+lspinning = false;
+rspinning = false;
+lstop = false;
+rstop = false;
 $("#play1button").click(function () {
        var $elie = $("#leftwheel");
        if (!lspinning) {
        rotate(0);
        } else {
        lstop = true;
-
+       source.noteOff(0);
+        if (rstop){
+         $("#overlay").show();
+         
+       }
        }
        function rotate(degree) {
            lspinning = true;
@@ -223,7 +238,10 @@ $("#play1button").click(function () {
        rotate(0);
        } else {
        rstop = true;
-       
+       source2.stop(0);
+       if (lstop){
+         $("#overlay").show();
+       }
        }
        function rotate(degree) {
            rspinning = true;
