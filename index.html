@@ -1,19 +1,167 @@
-<html>
+
+<!doctype html>
+ 
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
 
+  <style>
+  
+  
+  .ui-slider {
+ position:absolute;
+  background: transparent;
+ top:100px;
+ left:1220px;
+ border: none;
+ 
 
-<script type ="text/javascript">
+ }
 
-function printSlider(val) {
- document.getElementById('textprint').value = val;
+ .ui-slider {
+    background: transparent;
+    border:none;
+ }
+ 
+  .ui-slider-vertical .ui-slider-handle{
+    width:50px; 
+    height:50px; 
+    background: url(images/slider.png) no-repeat; overflow: hidden; 
+    position:absolute;
+    border-style:none; 
 }
 
-</script>
+  #leftwheel {
+  position: absolute;
+  top:170px;
+  left:20px;
+  }
+  
+    #play1button {
+  position: absolute;
+  top:680px;
+  left:340px;
+  }
+  
+    #rightwheel {
+  position: absolute;
+  top:200px;
+  left:720px;
+  }
+  
+     #play2button {
+  position: absolute;
+  top:700px;
+  left:1070px;
+  }
 
+  </style>
+  
+  
+  
+  
+  <script>
+  $(function() {
+    $( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 50,
+      
+    });
+  });
+  
+
+    
+
+$(document).ready(function() {
+var lspinning = false;
+var rspinning = false;
+var lstop = false;
+var rstop = false;
+$("#play1button").click(function () {
+       var $elie = $("#leftwheel");
+       if (!lspinning) {
+       rotate(0);
+        $("#play1button").html("STOP");
+       } else {
+       lstop = true;
+
+       }
+       function rotate(degree) {
+           lspinning = true;
+           // For webkit browsers: e.g. Chrome
+           $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+           // For Mozilla browser: e.g. Firefox
+           $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+  
+           // Animate rotation with a recursive call
+           if (!lstop){
+           setTimeout(function() { rotate(10+degree); },65);
+           }
+       }
+    
+});
+
+  $("#play2button").click(function () {
+       var $elie = $("#rightwheel");
+       if (!rspinning) {
+       rotate(0);
+       $("#play2button").html("STOP");
+       } else {
+       rstop = true;
+       
+       
+       
+       }
+       function rotate(degree) {
+           rspinning = true;
+           var incspeed = 0;
+         
+           var speed = $( "#slider-vertical" ).slider( "value" );
+           
+           incspeed = -(1 - speed/50.0); //normalized value between -1 and 1
+                    
+           // For webkit browsers: e.g. Chrome
+           $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+           // For Mozilla browser: e.g. Firefox
+           $elie.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+  
+           // Animate rotation with a recursive call
+           if (!rstop){
+           setTimeout(function() { rotate(10 + 8*incspeed+degree); },65);
+           }
+       }
+    
+});
+});
+
+  
+  </script>
 </head>
 <body>
-<input type="range" min="0" max ="100" value="50" oninput="printSlider(this.value);">
-<input type="text" id ="textprint" value="">
+<p>
+<center>
+<img src="images/title.png" height="80">
+</center>
+</p>
+
+ <div id= "container" style="position: relative; top:15%; left:15%;">
+<img src="images/background.png" style="position:absolute;"> 
+<img src="images/leftwheel.png" id="leftwheel">
+<button type="button" id="play1button">PLAY</button>
+
+<img src="images/rightwheel.png" id="rightwheel">
+<button type="button" id="play2button">PLAY</button>
+
+<div id="slider-vertical" style="height: 680px;"></div>
+ </div>
+ 
 </body>
 </html>
 
