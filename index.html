@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Issues</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
-    <![endif]-->
+<!doctype html>
+ 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
-<style>
+
+  <style>
   
   
   .ui-slider {
@@ -50,12 +46,6 @@
   top:680px;
   left:340px;
   }
-
-  #play1buttonstop {
-    position: absolute;
-    top: 680px;
-    left: 230px;
-  }
   
     #rightwheel {
   position: absolute;
@@ -67,114 +57,13 @@
   position: absolute;
   top:700px;
   left:1070px;
-  }
-
-  #play2buttonstop {
-    position: absolute;
-    top: 700px;
-    left: 950px;
-  }
-
+}
   </style>
   
   
   
   
-  
-  </head>
-
-  <body>
-    <!--<input type="button" onClick="play();" value="Play Track 1">
-    <input type="button" onClick="source.noteOff(0);" value="Stop Track 1">
-    <input type="button" onClick="speedUp();" value="Speed Up">
-    <input type="button" onClick="play2();" value="Play Track 2">
-    <input type="button" onClick="source2.stop(0)" value="Stop Track 2"> -->
-<p>
-<center>
-<img src="images/title.png" height="80">
-</center>
-</p>
-
- <div id= "container" style="position: relative; top:15%; left:15%;">
-<img src="images/background.png" style="position:absolute;"> 
-<img src="images/leftwheel.png" id="leftwheel">
-<button type="button" id="play1button" onClick="play();">PLAY</button>
-<button type="button" id="play1buttonstop" onClick="source.noteOff(0);">STOP</button>
-
-<img src="images/rightwheel.png" id="rightwheel">
-<button type="button" id="play2button" onClick="play2();">PLAY</button>
-<button type="button" id="play2buttonstop" onClick="source2.stop(0);">STOP</button>
-
-<div id="slider-vertical" style="height: 680px;"></div>
- </div>
-<script type="text/javascript">
-// Make webkit browsers use the prefix-free version of AudioContext.
-  var AudioContext = AudioContext || webkitAudioContext;
-  var context = new AudioContext(), buffer;
-  var source;
-  var source2;
-    
-    function setAudioFile(buffer) {
-        source = context.createBufferSource();
-        source.buffer = buffer;
-        source.loop= true;
-        source.connect(context.destination);
-        //source.start(0); // Play sound immediately
-    };
-
-    function speedUp() {
-        source.playbackRate.value += 1.0;
-    }
-
-    function play() {
-       source.noteOn(0); 
-    }
-
-    function setAudioFile2(buffer) {
-        source2 = context.createBufferSource();
-        source2.buffer = buffer;
-        source2.connect(context.destination);
-        //source.start(0); // Play sound immediately
-    };
-
-    function play2() {
-      source2.noteOn(0);
-    }
-
-    var loadAudioFile = (function (url) {
-        var request = new XMLHttpRequest();
-
-        request.open('get', 'Hold Me (Breakbot Remix).mp3', true);
-        request.responseType = 'arraybuffer';
-
-        request.onload = function () {
-                context.decodeAudioData(request.response,
-                     function(incomingBuffer) {
-                         setAudioFile(incomingBuffer);
-                     }
-                );
-        };
-
-        request.send();
-    });
-    // track 2
-    var loadAudioFile2 = (function (url) {
-        var request = new XMLHttpRequest();
-
-        request.open('get', 'testclap.mp3', true);
-        request.responseType = 'arraybuffer';
-
-        request.onload = function () {
-                context.decodeAudioData(request.response,
-                     function(incomingBuffer) {
-                         setAudioFile2(incomingBuffer);
-                     }
-                );
-        };
-
-        request.send();
-    });
-
+  <script>
   $(function() {
     $( "#slider-vertical" ).slider({
       orientation: "vertical",
@@ -190,6 +79,7 @@
     
 
 $(document).ready(function() {
+$("#overlay").hide();
 var lspinning = false;
 var rspinning = false;
 var lstop = false;
@@ -198,9 +88,12 @@ $("#play1button").click(function () {
        var $elie = $("#leftwheel");
        if (!lspinning) {
        rotate(0);
+        $("#play1button").html("STOP");
        } else {
        lstop = true;
-
+        if (rstop){
+         $("#overlay").show();
+       }
        }
        function rotate(degree) {
            lspinning = true;
@@ -217,13 +110,16 @@ $("#play1button").click(function () {
     
 });
 
- $("#play2button").click(function () {
+  $("#play2button").click(function () {
        var $elie = $("#rightwheel");
        if (!rspinning) {
        rotate(0);
+       $("#play2button").html("STOP");
        } else {
        rstop = true;
-       
+       if (lstop){
+         $("#overlay").show();
+       }
        }
        function rotate(degree) {
            rspinning = true;
@@ -232,7 +128,7 @@ $("#play1button").click(function () {
            var speed = $( "#slider-vertical" ).slider( "value" );
            
            incspeed = -(1 - speed/50.0); //normalized value between -1 and 1
-           source2.playbackRate.value    =  incspeed+1;   
+                    
            // For webkit browsers: e.g. Chrome
            $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
            // For Mozilla browser: e.g. Firefox
@@ -249,6 +145,27 @@ $("#play1button").click(function () {
 
   
   </script>
+</head>
+<body>
+<p>
+<center>
+<img src="images/title.png" height="80">
+</center>
+</p>
 
-  </body>
+ <div id= "container" style="position: relative; top:15%; left:15%;">
+<img src="images/background.png" style="position:absolute;"> 
+<img src="images/leftwheel.png" id="leftwheel">
+<button type="button" id="play1button">PLAY</button>
+
+<img src="images/rightwheel.png" id="rightwheel">
+<button type="button" id="play2button">PLAY</button>
+
+<div id="slider-vertical" style="height: 680px;"></div>
+
+<img src="images/overlaytext.png" style="position:absolute;" id="overlay">
+ </div>
+ 
+</body>
 </html>
+
