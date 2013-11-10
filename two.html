@@ -42,7 +42,7 @@ function init() {
             track = t;
             $("#info").text(percent + "% of the first track loaded...");
             if (percent == 100) {
-                $("#info").text(percent + "% of the first track loaded, checking status and preparing for second track...");
+                $("#info").text(percent + "% of the first track loaded, checking status and preparing remixed version of 1st track...");
             }
 
             if (track.status == 'ok') {
@@ -52,20 +52,30 @@ function init() {
                     if (percent == 100) {
                         $("#info").text(percent + "% of both tracks loaded, remixing...");
                     }
-                    $("#info1").text("Remix complete!");
+                    if (track2.status == 'ok') {
+                        // Extract the first and third beats of track 1 with the second and fourth beats of track 2.
+                        remixed = new Array();
+                         for (var i=0; i < track.analysis.tatums.length; i++) {
+                                var ratio = .4;
+                                var dur = track.analysis.tatums[i].duration;
+                                track.analysis.tatums[i].duration = dur*ratio;
+                                remixed.push(track.analysis.tatums[i]);
+                         }
+                        $("#info").text("Remix complete!");
+                    }
                 });
             }
         });
 // PLAYER 2
         remixer2 = createJRemixer(context, $, apiKey);
         player2 = remixer2.getPlayer();
-        $("#info2").text("Loading analysis data... from second player");
+        $("#info2").text("Loading analysis data...");
 
         remixer2.remixTrackById(trackID2, trackURL2, function(t2, percent) {
             track2 = t2;
-            $("#info2").text(percent + "% of the second track loaded...from second player");
+            $("#info2").text(percent + "% of the second track loaded...");
             if (percent == 100) {
-                $("#info2").text(percent + "% of the second track loaded, checking status and preparing for second remixed track...");
+                $("#info2").text(percent + "% of the second track loaded, checking status and preparing remixed version of 2nd track...");
             }
 
             if (track2.status == 'ok') {
@@ -78,16 +88,13 @@ function init() {
 
                     if (track2.status == 'ok') {
                         // Extract the first and third beats of track 1 with the second and fourth beats of track 2.
-                        remixed = new Array();
-                        var meter = parseInt(track.analysis.track.time_signature);
-                        var numberOfBeats = Math.min(track.analysis.beats.length, track2.analysis.beats.length);
-                        for (var i=0; i < numberOfBeats; i++) {
-                            if (i % meter == 0 || i % meter == 2) {
-                                remixed.push(track.analysis.beats[i])
-                            } else if (i % meter == 1 || i % meter == 3) {
-                                remixed.push(track2.analysis.beats[i])
-                            }
-                        }
+                        remixed2 = new Array();
+                         for (var i=0; i < track2.analysis.tatums.length; i++) {
+                                var ratio = .4;
+                                var dur = track2.analysis.tatums[i].duration;
+                                track2.analysis.tatums[i].duration = dur*ratio;
+                                remixed2.push(track2.analysis.tatums[i]);
+                         }
                         $("#info2").text("Remix complete!");
                     }
                 });
@@ -98,12 +105,16 @@ function init() {
 
 window.onload = init;
 </script>
-Welcome to Beatmasher
+<h2>Welcome to Beatmasher</h2><br>
+<p>First CDJ</p>
 <div id='info'> </div>
 <button onClick="player.play(0, track.analysis.beats);">Play first song!</button>
-<button onClick="player.stop(track.analysis.beats)">Stop first song!</button>
+<button onClick="player.play(0, remixed);">Play first song modified!</button>
+<button onClick="player.stop()">Stop first player!</button>
+<p>Second CDJ</p>
 <div id="info2"> </div>
 <button onClick="player2.play(0, track2.analysis.beats);">Play second song!</button>
-<button onClick="player2.stop(track2.analysis.beats)">Stop second song!</button>
+<button onClick="player2.play(0, remixed2);">Play second song modified!</button>
+<button onClick="player2.stop()">Stop second player!</button>
 </body>
 </html>
