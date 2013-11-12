@@ -1,15 +1,20 @@
 
-<!doctype html>
- 
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
+  <head>
+    <title>DogeTrack Pro</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
-
-  <style>
+<style>
   
   
   .ui-slider {
@@ -46,6 +51,12 @@
   top:680px;
   left:340px;
   }
+
+  #play1buttonstop {
+    position: absolute;
+    top: 680px;
+    left: 230px;
+  }
   
     #rightwheel {
   position: absolute;
@@ -57,13 +68,19 @@
   position: absolute;
   top:700px;
   left:1070px;
-}
+  }
+
+  #play2buttonstop {
+    position: absolute;
+    top: 700px;
+    left: 950px;
+  }
+
   </style>
   
   
   
   
-
   
   </head>
 
@@ -91,7 +108,7 @@
 
 <div id="slider-vertical" style="height: 680px;"></div>
 
-<img src =" images/overlaytext.png" style = "position:absolute;" id = "overlay">
+<img src ="images/overlaytext.png" style = "position:absolute;" id = "overlay">
  </div>
 <script type="text/javascript">
 // Make webkit browsers use the prefix-free version of AudioContext.
@@ -130,7 +147,7 @@
     var loadAudioFile = (function (url) {
         var request = new XMLHttpRequest();
 
-        request.open('get', 'Hold Me (Breakbot Remix).mp3', true);
+        request.open('get', 'http://rayshoerepair.com/boston-mhd/Hold%20Me%20%28Breakbot%20Remix%29.mp3', true);
         request.responseType = 'arraybuffer';
 
         request.onload = function () {
@@ -147,7 +164,7 @@
     var loadAudioFile2 = (function (url) {
         var request = new XMLHttpRequest();
 
-        request.open('get', 'testclap.mp3', true);
+        request.open('get', 'http://rayshoerepair.com/boston-mhd/testclap.mp3', true);
         request.responseType = 'arraybuffer';
 
         request.onload = function () {
@@ -160,7 +177,6 @@
 
         request.send();
     }());
-
 
   $(function() {
     $( "#slider-vertical" ).slider({
@@ -177,28 +193,23 @@
     
 
 $(document).ready(function() {
-$("#overlay").hide();
 
+$("#overlay").hide();
  $("#play2buttonstop").hide();
   $("#play1buttonstop").hide();
-
 var lspinning = false;
 var rspinning = false;
 var lstop = false;
 var rstop = false;
-
 var lto;
 var rto;
-
 $("#play1button").click(function () {
        var $elie = $("#leftwheel");
        if (!lspinning) {
         $("#play1button").hide();
          $("#play1buttonstop").show();
        rotate(0);
-       
        } 
-
        function rotate(degree) {
            lspinning = true;
            // For webkit browsers: e.g. Chrome
@@ -214,16 +225,13 @@ $("#play1button").click(function () {
     
 });
 
-  $("#play2button").click(function () {
+ $("#play2button").click(function () {
        var $elie = $("#rightwheel");
        if (!rspinning) {
           $("#play2button").hide();
           $("#play2buttonstop").show();
        rotate(0);
-
-      
        } 
-
        function rotate(degree) {
            rspinning = true;
            var incspeed = 0;
@@ -231,7 +239,7 @@ $("#play1button").click(function () {
            var speed = $( "#slider-vertical" ).slider( "value" );
            
            incspeed = -(1 - speed/50.0); //normalized value between -1 and 1
-                    
+           source2.playbackRate.value    =  incspeed+1;   
            // For webkit browsers: e.g. Chrome
            $elie.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
            // For Mozilla browser: e.g. Firefox
@@ -261,27 +269,6 @@ $("#play1button").click(function () {
  
   
   </script>
-</head>
-<body>
-<p>
-<center>
-<img src="images/title.png" height="80">
-</center>
-</p>
 
- <div id= "container" style="position: relative; top:15%; left:15%;">
-<img src="images/background.png" style="position:absolute;"> 
-<img src="images/leftwheel.png" id="leftwheel">
-<button type="button" id="play1button">PLAY</button>
-
-<img src="images/rightwheel.png" id="rightwheel">
-<button type="button" id="play2button">PLAY</button>
-
-<div id="slider-vertical" style="height: 680px;"></div>
-
-<img src="images/overlaytext.png" style="position:absolute;" id="overlay">
- </div>
- 
-</body>
+  </body>
 </html>
-
